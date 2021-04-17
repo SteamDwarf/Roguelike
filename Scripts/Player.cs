@@ -28,38 +28,53 @@ public class Player : MonoBehaviour
         canvasTransform = GameObject.Find("UI").transform;
         healthBar.fillAmount = 1f;
 
-        Image toInstance = Instantiate(healthBar, new Vector3(130, 69, 0), Quaternion.identity) as Image; 
+        Image toInstance = Instantiate(healthBar, new Vector3(140, 69, 0), Quaternion.identity) as Image; 
         toInstance.transform.SetParent(canvasTransform);
         //camera = GetComponent<CameraScript>();
     }
 
     public void Update()
     {
-        Actions();
+        Combat();
+        Move();
         HealthBarChange();
     }
 
-    private void Actions()
+    private void Move()
     {
         inputMovement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         moveVelocity = inputMovement * speed;
-        if (Input.GetMouseButtonDown(0))
-            anim.SetTrigger("isAttackA1");
         if (inputMovement.x != 0 || inputMovement.y != 0)
         {
             if (inputMovement.y > 0)
+            {
                 anim.SetBool("runFrontA1", true);
+                anim.SetBool("runBackA1", false);
+                anim.SetBool("runLeftA1", false);
+                anim.SetBool("runRightA1", false);
                 //anim.SetTrigger("runFrontTrig");
-            if (inputMovement.y < 0)
+            }
+            else if (inputMovement.y < 0)
+            {
                 anim.SetBool("runBackA1", true);
-            if (inputMovement.x < 0)
+                anim.SetBool("runFrontA1", false);
+                anim.SetBool("runLeftA1", false);
+                anim.SetBool("runRightA1", false);
+            }
+            else if (inputMovement.x < 0)
+            {
                 anim.SetBool("runLeftA1", true);
-            if (inputMovement.x > 0)
+                anim.SetBool("runFrontA1", false);
+                anim.SetBool("runBackA1", false);
+                anim.SetBool("runRightA1", false);
+            }
+            else if (inputMovement.x > 0)
+            {
                 anim.SetBool("runRightA1", true);
-
-            Debug.Log("x: " + inputMovement.x);
-            Debug.Log("y: " + inputMovement.y);
-
+                anim.SetBool("runFrontA1", false);
+                anim.SetBool("runBackA1", false);
+                anim.SetBool("runLeftA1", false);
+            }
         }
         else
         {
@@ -69,6 +84,12 @@ public class Player : MonoBehaviour
             anim.SetBool("runRightA1", false);
 
         }
+    }
+
+    private void Combat()
+    {
+        if (Input.GetMouseButtonDown(0))
+            anim.SetTrigger("isAttackA1");
     }
 
     private void HealthBarChange()

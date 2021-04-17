@@ -21,12 +21,19 @@ public class DungeonGenerator : MonoBehaviour
     public int maxFeatures;
     int countFeatures;
 
+    public int maxEnemies;
+    public int maxEnemiesPerRoom;
+    public int minEnemiesPerRoom;
+    int spawnedEnemiesCount;
+
     //public bool isASCII;
     //public bool isSprites;
     //public float mapk;
 
     public List<Feature> allFeatures;
     public List<Feature> allRooms;
+    public List<GameObject> enemies;
+    public List<GameObject> spawnedEnemies;
 
     public Vector2Int playerSpawnCordinates;
 
@@ -41,6 +48,7 @@ public class DungeonGenerator : MonoBehaviour
     {
         MapManager.map = new Tile[mapWidth, mapHeight];
         mD = GetComponent<MapDrawer>();
+        spawnedEnemiesCount = 0;
         //camera = GetComponent<CameraScript>();
     }
 
@@ -88,6 +96,7 @@ public class DungeonGenerator : MonoBehaviour
         }
 
         SpawnPlayer();
+        SpawnEnemies();
         mD.DrawMap();
     }
 
@@ -348,6 +357,33 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
+    public void SpawnEnemies()
+    {   while(spawnedEnemiesCount < maxEnemies) {  
+            //—делать проверку на количество врагов в комнате.
+            int roomInd = Random.Range(1, allRooms.Count);
+            int enemiesSpawn = Random.Range(minEnemiesPerRoom, maxEnemiesPerRoom);
+            Feature room = allRooms[roomInd];
+
+            for (int j = 0; j < enemiesSpawn; j++)
+            {
+                int tileInd = Random.Range(0, room.positions.Count - 1);
+                int enemyInd = Random.Range(0, enemies.Count);
+
+                Vector2Int spawnPoint = room.positions[tileInd];
+
+                if (MapManager.map[spawnPoint.x, spawnPoint.y].type == "Wall")
+                    continue;
+                else
+                {
+                    MapManager.map[spawnPoint.x, spawnPoint.y].baseObject = enemies[enemyInd];
+                    spawnedEnemies.Add(enemies[enemyInd]);
+                    room.enemyInRoom++;
+                    spawnedEnemiesCount++;
+                }
+            }
+        }
+    }
+
     /*public void DrawASCII()
     {
         Text screen = GameObject.Find("ASCII").GetComponent<Text>();
@@ -434,7 +470,7 @@ public class DungeonGenerator : MonoBehaviour
                         instance.transform.SetParent(boardHolder);
                     }
                 }*/
-            //}
+    //}
 
     /*public void DrawMap(bool isSprites)
     {

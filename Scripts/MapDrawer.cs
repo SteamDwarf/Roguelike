@@ -44,6 +44,12 @@ public class MapDrawer : MonoBehaviour
                 {
                     GameObject playerSpawn = GameObject.Instantiate(playerPrefab, new Vector3(x * mapk, y * mapk, 0), Quaternion.identity);
                 }
+
+                if(MapManager.map[x, y].baseObject != null)
+                {
+                    GameObject enemy = MapManager.map[x, y].baseObject;
+                    Instantiate(enemy, new Vector3(x * mapk, y * mapk, 0), Quaternion.identity);
+                }
             }
         }
     }

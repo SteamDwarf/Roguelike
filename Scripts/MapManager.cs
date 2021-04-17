@@ -37,4 +37,5 @@ public class Feature
     public int width;
     public int height;
     public bool hasPlayer = false;
+    public int enemyInRoom = 0;
 }

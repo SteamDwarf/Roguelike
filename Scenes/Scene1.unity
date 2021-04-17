@@ -223,7 +223,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -351, y: -217}
+  m_AnchoredPosition: {x: -358.8, y: -217}
   m_SizeDelta: {x: 183.6501, y: 31.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &56140436
@@ -503,17 +503,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e36bb1c036ba34a828b77f4b245375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidth: 200
-  mapHeight: 200
-  widthMinRoom: 4
+  mapWidth: 300
+  mapHeight: 300
+  widthMinRoom: 6
   widthMaxRoom: 15
-  heightMinRoom: 4
+  heightMinRoom: 6
   heightMaxRoom: 15
   minCorridorLength: 3
   maxCorridorLength: 6
   maxFeatures: 30
+  maxEnemies: 10
+  maxEnemiesPerRoom: 3
+  minEnemiesPerRoom: 0
   allFeatures: []
   allRooms: []
+  enemies:
+  - {fileID: 408145826382259713, guid: a32250bb94f3ca44b9a4cd4d78f4da8e, type: 3}
+  - {fileID: 188741122878410721, guid: 8be61ccda9943c344815b9058ac13737, type: 3}
+  spawnedEnemies: []
   playerSpawnCordinates: {x: 0, y: 0}
 --- !u!4 &1759988303
 Transform:
