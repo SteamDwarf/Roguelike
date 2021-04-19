@@ -8,7 +8,10 @@ public class Player : MonoBehaviour
     //DungeonGenerator dungeon;
 
     //public Vector2Int playerPosition;
-    
+
+    MapDrawer MD;
+    GameObject gameManager;
+
     public Image healthBar;
     public float speed = 3f;
     public int health = 20;
@@ -20,6 +23,9 @@ public class Player : MonoBehaviour
     private Animator anim;
     private Vector2 inputMovement;
     private Vector2 moveVelocity;
+    private float mapk;
+    private int prevX;
+    private int prevY;
 
     public void Start()
     {
@@ -27,8 +33,11 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         canvasTransform = GameObject.Find("UI").transform;
         healthBar.fillAmount = 1f;
+        gameManager = GameObject.Find("GameManager");
+        MD = gameManager.GetComponent<MapDrawer>();
 
-        Image toInstance = Instantiate(healthBar, new Vector3(140, 69, 0), Quaternion.identity) as Image; 
+        mapk = MD.mapk;
+        Image toInstance = Instantiate(healthBar, new Vector3(140, 69, 0), Quaternion.identity) as Image;
         toInstance.transform.SetParent(canvasTransform);
         //camera = GetComponent<CameraScript>();
     }
@@ -36,7 +45,7 @@ public class Player : MonoBehaviour
     public void Update()
     {
         Combat();
-        Move();
+        //Move();
         HealthBarChange();
     }
 
@@ -75,6 +84,16 @@ public class Player : MonoBehaviour
                 anim.SetBool("runBackA1", false);
                 anim.SetBool("runLeftA1", false);
             }
+
+            prevX = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
+            prevY = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
+            MapManager.map[prevX, prevY].hasPlayer = false;
+            rB.MovePosition(rB.position + moveVelocity * Time.deltaTime);
+            prevX = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
+            prevY = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
+            MapManager.map[prevX, prevY].hasPlayer = true;
+
+
         }
         else
         {
@@ -89,7 +108,22 @@ public class Player : MonoBehaviour
     private void Combat()
     {
         if (Input.GetMouseButtonDown(0))
+        {
             anim.SetTrigger("isAttackA1");
+
+
+            Debug.Log(mapk);
+            Debug.Log(transform.position);
+            //Debug.Log(MapManager.map[(int)transform.position.x, (int)transform.position.y].hasPlayer);
+            int x = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
+            int y = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
+            Debug.Log(x);
+            Debug.Log(y);
+            Debug.Log(MapManager.map[x,y].hasPlayer);
+
+        }
+            
+
     }
 
     private void HealthBarChange()
@@ -99,7 +133,7 @@ public class Player : MonoBehaviour
 
     public void FixedUpdate()
     {
-        rB.MovePosition(rB.position + moveVelocity * Time.deltaTime);
+        Move();
     }
 
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4265414314881742375}
   - component: {fileID: 5545840628923794972}
   - component: {fileID: 1024541233351191677}
+  - component: {fileID: -3523590589099304877}
   m_Layer: 3
   m_Name: Scorpion
   m_TagString: Enemy
@@ -209,3 +210,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-3523590589099304877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188741122878410721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703ad74189546874ba0a6c7e7b71a69b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
+  speed: 3
+  health: 20
+  maxHealth: 20
+  moveRange: 5

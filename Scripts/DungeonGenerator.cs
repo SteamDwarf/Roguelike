@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DungeonGenerator : MonoBehaviour
 {
-    private MapDrawer mD;
+    private MapDrawer MD;
     //private new CameraScript camera;
 
     public int mapWidth;
@@ -28,7 +28,7 @@ public class DungeonGenerator : MonoBehaviour
 
     //public bool isASCII;
     //public bool isSprites;
-    //public float mapk;
+    public float mapk;
 
     public List<Feature> allFeatures;
     public List<Feature> allRooms;
@@ -47,8 +47,9 @@ public class DungeonGenerator : MonoBehaviour
     public void InitializeDungeon()
     {
         MapManager.map = new Tile[mapWidth, mapHeight];
-        mD = GetComponent<MapDrawer>();
+        MD = GetComponent<MapDrawer>();
         spawnedEnemiesCount = 0;
+        mapk = MD.mapk;
         //camera = GetComponent<CameraScript>();
     }
 
@@ -97,7 +98,7 @@ public class DungeonGenerator : MonoBehaviour
 
         SpawnPlayer();
         SpawnEnemies();
-        mD.DrawMap();
+        MD.DrawMap();
     }
 
     void GenerateFeature(string type, Wall wall, bool isFirst = false)
@@ -364,7 +365,7 @@ public class DungeonGenerator : MonoBehaviour
             int enemiesSpawn = Random.Range(minEnemiesPerRoom, maxEnemiesPerRoom);
             Feature room = allRooms[roomInd];
 
-            for (int j = 0; j < enemiesSpawn; j++)
+            for (int j = 0; j < enemiesSpawn ; j++)
             {
                 int tileInd = Random.Range(0, room.positions.Count - 1);
                 int enemyInd = Random.Range(0, enemies.Count);

@@ -515,6 +515,7 @@ MonoBehaviour:
   maxEnemies: 10
   maxEnemiesPerRoom: 3
   minEnemiesPerRoom: 0
+  mapk: 0
   allFeatures: []
   allRooms: []
   enemies:
@@ -553,4 +554,4 @@ MonoBehaviour:
   mapTransform: {fileID: 0}
   floorPrefab:
   - {fileID: 4249247623920392998, guid: 952aab719934a7c4292ad3ffb8942d5c, type: 3}
-  mapk: 9.6
+  mapk: 10
