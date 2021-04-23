@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    //DungeonGenerator dungeon;
+    DungeonGenerator dungeon;
 
     //public Vector2Int playerPosition;
 
@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public float speed = 3f;
     public int health = 20;
     public int maxHealth = 20;
+    public int noiseRange;
 
     //private new CameraScript camera;
     private Transform canvasTransform;
@@ -26,6 +27,10 @@ public class Player : MonoBehaviour
     private float mapk;
     private int prevX;
     private int prevY;
+    private int negRangeNoise;
+    private int posRangeNoise;
+    private int mapWidth;
+    private int mapHeight;
 
     public void Start()
     {
@@ -35,11 +40,17 @@ public class Player : MonoBehaviour
         healthBar.fillAmount = 1f;
         gameManager = GameObject.Find("GameManager");
         MD = gameManager.GetComponent<MapDrawer>();
+        dungeon = gameManager.GetComponent<DungeonGenerator>();
 
         mapk = MD.mapk;
+        mapWidth = dungeon.mapWidth;
+        mapHeight = dungeon.mapHeight;
         Image toInstance = Instantiate(healthBar, new Vector3(140, 69, 0), Quaternion.identity) as Image;
         toInstance.transform.SetParent(canvasTransform);
         //camera = GetComponent<CameraScript>();
+
+        negRangeNoise = -(noiseRange / 2);
+        posRangeNoise = noiseRange / 2;
     }
 
     public void Update()
@@ -47,6 +58,10 @@ public class Player : MonoBehaviour
         Combat();
         //Move();
         HealthBarChange();
+    }
+    public void FixedUpdate()
+    {
+        Move();
     }
 
     private void Move()
@@ -92,7 +107,8 @@ public class Player : MonoBehaviour
             prevX = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
             prevY = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
             MapManager.map[prevX, prevY].hasPlayer = true;
-
+            NoiseFOVCheck(prevX, prevY);
+            
 
         }
         else
@@ -122,7 +138,6 @@ public class Player : MonoBehaviour
             Debug.Log(MapManager.map[x,y].hasPlayer);
 
         }
-            
 
     }
 
@@ -131,9 +146,39 @@ public class Player : MonoBehaviour
         healthBar.fillAmount = health / maxHealth;
     }
 
-    public void FixedUpdate()
+    void NoiseFOVCheck(int x, int y)
     {
-        Move();
-    }
+        //Debug.Log(negRangeNoise);
+        //Debug.Log(posRangeNoise);
+        //List<Vector2Int> cords = new List<Vector2Int>();
+        for (int i = -4; i <= 4; i++)
+        {
+            for (int j = -4; j <= 4; j++)
+            {
+                if (x + i < 0 || x + i > mapWidth)
+                    break;
+                if (y + j < 0 || y + j > mapHeight)
+                    continue;
 
+                int xCord = x + i;
+                int yCord = y + j;
+                try
+                {
+                    if (MapManager.map[xCord, yCord].hasEnemy == true)
+                    {
+                        Enemy enemy = MapManager.map[xCord, yCord].enemy.GetComponent<Enemy>();
+                        enemy.sawPlayer = true;
+                        enemy.playerPosition = transform.position;
+                        Debug.Log("“ут враг");
+                        
+                        //Debug.Log(MapManager.map[xCord, yCord].enemy.name);
+                    }
+                }
+                catch (System.Exception)
+                {
+                    continue;
+                }
+            }
+        }
+    }
 }

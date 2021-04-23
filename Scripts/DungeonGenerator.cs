@@ -32,8 +32,6 @@ public class DungeonGenerator : MonoBehaviour
 
     public List<Feature> allFeatures;
     public List<Feature> allRooms;
-    public List<GameObject> enemies;
-    public List<GameObject> spawnedEnemies;
 
     public Vector2Int playerSpawnCordinates;
 
@@ -368,16 +366,18 @@ public class DungeonGenerator : MonoBehaviour
             for (int j = 0; j < enemiesSpawn ; j++)
             {
                 int tileInd = Random.Range(0, room.positions.Count - 1);
-                int enemyInd = Random.Range(0, enemies.Count);
+                //int enemyInd = Random.Range(0, enemies.Count);
 
                 Vector2Int spawnPoint = room.positions[tileInd];
 
                 if (MapManager.map[spawnPoint.x, spawnPoint.y].type == "Wall")
                     continue;
+                else if (MapManager.map[spawnPoint.x, spawnPoint.y].hasEnemy)
+                    continue;
                 else
                 {
-                    MapManager.map[spawnPoint.x, spawnPoint.y].baseObject = enemies[enemyInd];
-                    spawnedEnemies.Add(enemies[enemyInd]);
+                    MapManager.map[spawnPoint.x, spawnPoint.y].hasEnemy = true;
+                    //spawnedEnemies.Add(enemies[enemyInd]);
                     room.enemyInRoom++;
                     spawnedEnemiesCount++;
                 }

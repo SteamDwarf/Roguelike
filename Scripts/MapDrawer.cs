@@ -11,6 +11,8 @@ public class MapDrawer : MonoBehaviour
     public GameObject wallPrefab;
     public Transform mapTransform;
     public List<GameObject> floorPrefab;
+    public List<GameObject> enemies;
+    public List<GameObject> spawnedEnemies;
 
     public float mapk;
     public void DrawMap()
@@ -40,15 +42,23 @@ public class MapDrawer : MonoBehaviour
                     instance.transform.SetParent(mapTransform);
                 }
 
-                if(MapManager.map[x, y].hasPlayer == true)
+                if (MapManager.map[x, y].hasPlayer == true)
                 {
                     GameObject playerSpawn = GameObject.Instantiate(playerPrefab, new Vector3(x * mapk, y * mapk, 0), Quaternion.identity);
                 }
 
-                if(MapManager.map[x, y].baseObject != null)
+                if (MapManager.map[x, y].hasEnemy)
                 {
-                    GameObject enemy = MapManager.map[x, y].baseObject;
-                    Instantiate(enemy, new Vector3(x * mapk, y * mapk, 0), Quaternion.identity);
+                    int enemyInd = Random.Range(0, enemies.Count);
+                    //Vector2Int spawnPoint = new Vector2Int(x, y);
+
+                    GameObject enemy = enemies[enemyInd];
+                    GameObject enemyToInst = Instantiate(enemy, new Vector3(x * mapk, y * mapk, 0), Quaternion.identity);
+
+                    MapManager.map[x, y].enemy = enemyToInst;
+                    spawnedEnemies.Add(enemies[enemyInd]);
+                    //GameObject enemy = MapManager.map[x, y].enemy;
+
                 }
             }
         }

@@ -9,23 +9,25 @@ public class Enemy : MonoBehaviour
     GameObject gameManager;
 
     public Image healthBar;
-    public float speed = 3f;
+    public float speed = 6f;
     public int health = 20;
     public int maxHealth = 20;
     public int moveRange;
+    public float startWaitTime;
+    public Vector2 playerPosition;
+    public bool sawPlayer;
 
     private Rigidbody2D rB;
     private Animator anim;
-    private SpriteRenderer spriteRend;
     private Vector2 moveVelocity;
-    private List<int> cordIncr;
-    private Vector2 movement;
-    private Vector2 guardPosition;
+   
     private int xCord;
     private int yCord;
     private float mapk;
-    private bool goBackX = false;
-    private bool goBackY = false;
+   
+    private string enemyName;
+    
+    private float waitTime;
 
     // Start is called before the first frame update
     void Start()
@@ -33,57 +35,82 @@ public class Enemy : MonoBehaviour
         gameManager = GameObject.Find("GameManager");
         rB = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        spriteRend = GetComponent<SpriteRenderer>();
-        guardPosition = transform.position;
-        cordIncr = new List<int> { 0, 1, -1 };
 
         DG = gameManager.GetComponent<DungeonGenerator>();
         mapk = DG.mapk;
+        enemyName = gameObject.name.Split('(')[0];
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Chill();
-    }
-    private void FixedUpdate()
-    {  
-            Chill(); 
+       if (sawPlayer)
+        {
+            Move(playerPosition, speed * 5);
+            anim.Play("Run" + enemyName);
+        }
     }
 
-    void Chill()
+    /*private IEnumerator EnemyTurn()
+    {
+        Patrol();
+        go = true;
+        yield return new WaitForSeconds(10f);
+        go = false;            
+    }*/
+
+    private void FixedUpdate()
+    {
+        
+    }
+
+    /*private void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameObject hitObj = collision.gameObject;
+        
+        if(hitObj.tag == "Wall" || hitObj.tag == "Enemy")
+        {
+            goBackX = !goBackX;
+            Flip();
+        }
+    }*/
+
+    void Flip()
     {
         Vector2 scaler = transform.localScale;
-
-        if (transform.position.x > guardPosition.x + moveRange)
-        {
-            goBackX = true;
-            scaler.x *= -1;
-            transform.localScale = scaler;
-        }
-        else if (transform.position.x < guardPosition.x - moveRange)
-        {
-            goBackX = false;
-            scaler.x *= -1;
-            transform.localScale = scaler;
-        }
-
-        if (goBackX)
-            transform.position = new Vector2(transform.position.x - speed * Time.deltaTime, transform.position.y);
-        else
-            transform.position = new Vector2(transform.position.x + speed * Time.deltaTime, transform.position.y);
-
-        anim.Play("Troll_1Walk");
-
-        /*movement = new Vector2(cordIncr[Random.Range(0, 2)], cordIncr[Random.Range(0, 2)]);
-        moveVelocity = movement * speed;
-
-        xCord = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
-        yCord = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
-        MapManager.map[xCord, yCord].baseObject = null;
-        rB.MovePosition(rB.position + moveVelocity * Time.deltaTime);
-        xCord = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
-        yCord = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
-        MapManager.map[xCord, yCord].baseObject = this.gameObject;*/
+        scaler.x *= -1;
+        transform.localScale = scaler;
     }
+
+    void Move(Vector2 target, float moveSpeed)
+    {
+        xCord = Mathf.FloorToInt(transform.position.x / mapk + 0.5f);
+        yCord = Mathf.FloorToInt(transform.position.y / mapk + 0.5f);
+        MapManager.map[xCord, yCord].hasEnemy = false;
+        MapManager.map[xCord, yCord].enemy = null;
+        transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+        xCord = Mathf.FloorToInt(transform.position.x / mapk + 0.5f);
+        yCord = Mathf.FloorToInt(transform.position.y / mapk + 0.5f);
+        MapManager.map[xCord, yCord].hasEnemy = true;
+        MapManager.map[xCord, yCord].enemy = this.gameObject;
+
+    }
+
+    
+
+    /*private void NoiseChecking()
+    {
+        for (int i = -4; i <= 4; i++)
+        {
+            for (int j = -4; j <= 4; j++)
+            {
+                int x = Mathf.FloorToInt(transform.position.x / mapk) + i;
+                int y = Mathf.FloorToInt(transform.position.y / mapk) + j;
+                if(MapManager.map[x , y].hasPlayer)
+                {
+                    Debug.Log("Игрок тут");
+                }
+            }
+        }
+    }*/
 }

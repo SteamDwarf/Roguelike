@@ -223,7 +223,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -358.8, y: -217}
+  m_AnchoredPosition: {x: -340, y: -217}
   m_SizeDelta: {x: 183.6501, y: 31.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &56140436
@@ -518,10 +518,6 @@ MonoBehaviour:
   mapk: 0
   allFeatures: []
   allRooms: []
-  enemies:
-  - {fileID: 408145826382259713, guid: a32250bb94f3ca44b9a4cd4d78f4da8e, type: 3}
-  - {fileID: 188741122878410721, guid: 8be61ccda9943c344815b9058ac13737, type: 3}
-  spawnedEnemies: []
   playerSpawnCordinates: {x: 0, y: 0}
 --- !u!4 &1759988303
 Transform:
@@ -554,4 +550,8 @@ MonoBehaviour:
   mapTransform: {fileID: 0}
   floorPrefab:
   - {fileID: 4249247623920392998, guid: 952aab719934a7c4292ad3ffb8942d5c, type: 3}
+  enemies:
+  - {fileID: 408145826382259713, guid: a32250bb94f3ca44b9a4cd4d78f4da8e, type: 3}
+  - {fileID: 1488870218940060442, guid: 8be61ccda9943c344815b9058ac13737, type: 3}
+  spawnedEnemies: []
   mapk: 10
