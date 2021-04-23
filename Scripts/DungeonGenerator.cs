@@ -270,15 +270,23 @@ public class DungeonGenerator : MonoBehaviour
             {
                 case "South":
                     MapManager.map[lastWallPosition.x, lastWallPosition.y - 1].type = "Floor";
+                    if(type == "Room")
+                        MapManager.map[lastWallPosition.x, lastWallPosition.y - 1].furniture = "DoorFront";
                     break;
                 case "North":
                     MapManager.map[lastWallPosition.x, lastWallPosition.y + 1].type = "Floor";
+                    if (type == "Room")
+                        MapManager.map[lastWallPosition.x, lastWallPosition.y + 1].furniture = "DoorFront";
                     break;
                 case "West":
                     MapManager.map[lastWallPosition.x - 1, lastWallPosition.y].type = "Floor";
+                    if (type == "Room")
+                        MapManager.map[lastWallPosition.x - 1, lastWallPosition.y].furniture = "DoorTop";
                     break;
                 case "East":
                     MapManager.map[lastWallPosition.x + 1, lastWallPosition.y].type = "Floor";
+                    if (type == "Room")
+                        MapManager.map[lastWallPosition.x + 1, lastWallPosition.y].furniture = "DoorTop";
                     break;
             }
         }
@@ -357,13 +365,15 @@ public class DungeonGenerator : MonoBehaviour
     }
 
     public void SpawnEnemies()
-    {   while(spawnedEnemiesCount < maxEnemies) {  
-            //—делать проверку на количество врагов в комнате.
-            int roomInd = Random.Range(1, allRooms.Count);
+    {   //while(spawnedEnemiesCount < maxEnemies) {  
+        //—делать проверку на количество врагов в комнате.
+        //int roomInd = Random.Range(1, allRooms.Count);
+        for (int i = 1; i < allRooms.Count; i++)
+        {
             int enemiesSpawn = Random.Range(minEnemiesPerRoom, maxEnemiesPerRoom);
-            Feature room = allRooms[roomInd];
+            Feature room = allRooms[i];
 
-            for (int j = 0; j < enemiesSpawn ; j++)
+            for (int j = 0; j < enemiesSpawn; j++)
             {
                 int tileInd = Random.Range(0, room.positions.Count - 1);
                 //int enemyInd = Random.Range(0, enemies.Count);
@@ -383,6 +393,8 @@ public class DungeonGenerator : MonoBehaviour
                 }
             }
         }
+            
+        //}
     }
 
     /*public void DrawASCII()

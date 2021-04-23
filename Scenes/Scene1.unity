@@ -512,9 +512,9 @@ MonoBehaviour:
   minCorridorLength: 3
   maxCorridorLength: 6
   maxFeatures: 30
-  maxEnemies: 10
-  maxEnemiesPerRoom: 3
-  minEnemiesPerRoom: 0
+  maxEnemies: 20
+  maxEnemiesPerRoom: 4
+  minEnemiesPerRoom: 2
   mapk: 0
   allFeatures: []
   allRooms: []
@@ -545,13 +545,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba6717524b105d841b59069b1d6d9758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1173988408279653371, guid: a2b6129423b4d8c428aa5d52828745af, type: 3}
+  playerPrefab: {fileID: 8979335956092022976, guid: a2b6129423b4d8c428aa5d52828745af, type: 3}
   wallPrefab: {fileID: 3401372308834435586, guid: e36e4670f5e67224b8fbbc9b4e01224a, type: 3}
+  frontDoorPrefab: {fileID: 4211843376705115256, guid: 930e5f0ec6d4de14088d57d290b5d5ff, type: 3}
+  topDoorPrefab: {fileID: 7829000894740871458, guid: 4b336959c9c658742953c25e772bf0a6, type: 3}
   mapTransform: {fileID: 0}
   floorPrefab:
   - {fileID: 4249247623920392998, guid: 952aab719934a7c4292ad3ffb8942d5c, type: 3}
   enemies:
-  - {fileID: 408145826382259713, guid: a32250bb94f3ca44b9a4cd4d78f4da8e, type: 3}
-  - {fileID: 1488870218940060442, guid: 8be61ccda9943c344815b9058ac13737, type: 3}
+  - {fileID: 7321710743912106827, guid: 8be61ccda9943c344815b9058ac13737, type: 3}
   spawnedEnemies: []
   mapk: 10

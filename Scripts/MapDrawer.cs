@@ -9,6 +9,9 @@ public class MapDrawer : MonoBehaviour
 
     public GameObject playerPrefab;
     public GameObject wallPrefab;
+    public GameObject frontDoorPrefab;
+    public GameObject topDoorPrefab;
+
     public Transform mapTransform;
     public List<GameObject> floorPrefab;
     public List<GameObject> enemies;
@@ -38,6 +41,19 @@ public class MapDrawer : MonoBehaviour
                 {
                     int randomNum = Random.Range(0, floorPrefab.Count - 1);
                     GameObject toInstantiate = floorPrefab[randomNum];
+                    GameObject instance = Instantiate(toInstantiate, new Vector3(x * mapk, y * mapk, 0), Quaternion.identity) as GameObject;
+                    instance.transform.SetParent(mapTransform);
+                }
+
+                if(MapManager.map[x, y].furniture == "DoorFront")
+                {
+                    GameObject toInstantiate = frontDoorPrefab;
+                    GameObject instance = Instantiate(toInstantiate, new Vector3(x * mapk, y * mapk, 0), Quaternion.identity) as GameObject;
+                    instance.transform.SetParent(mapTransform);
+                }
+                else if(MapManager.map[x, y].furniture == "DoorTop")
+                {
+                    GameObject toInstantiate = topDoorPrefab;
                     GameObject instance = Instantiate(toInstantiate, new Vector3(x * mapk, y * mapk, 0), Quaternion.identity) as GameObject;
                     instance.transform.SetParent(mapTransform);
                 }

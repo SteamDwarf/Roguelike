@@ -16,6 +16,7 @@ public class Tile
     [NonSerialized]
     public GameObject baseObject; // the map game object attached to that position: a floor, a wall, etc.
     public GameObject enemy;
+    public string furniture;
     public bool hasEnemy = false;
     public string type; // The type of the tile, if it is wall, floor, etc
     public bool hasPlayer = false;
