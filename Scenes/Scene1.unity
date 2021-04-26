@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.4717871, g: 0.5094933, b: 0.5849056, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -553,6 +553,8 @@ MonoBehaviour:
   floorPrefab:
   - {fileID: 4249247623920392998, guid: 952aab719934a7c4292ad3ffb8942d5c, type: 3}
   enemies:
-  - {fileID: 7321710743912106827, guid: 8be61ccda9943c344815b9058ac13737, type: 3}
+  - {fileID: 536054370750515619, guid: d4a88551ea42dcf499b8b9c7d43235c9, type: 3}
+  - {fileID: 6194665342935869011, guid: d4802941e5df1884a9c0a84675821e96, type: 3}
+  - {fileID: 1679201114901134538, guid: 8be61ccda9943c344815b9058ac13737, type: 3}
   spawnedEnemies: []
   mapk: 10

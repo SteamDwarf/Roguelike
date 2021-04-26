@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: door_front_open
+  m_Name: HurtNakedSkeleton
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,13 +20,11 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 1528503563734997927, guid: b6dc43f3c4cad0a4595c78683ee89882, type: 3}
+      value: {fileID: 21300000, guid: d8d8ffd881aec4c4186e8c9a722ff298, type: 3}
     - time: 0.083333336
-      value: {fileID: -5934055767966506526, guid: b6dc43f3c4cad0a4595c78683ee89882, type: 3}
+      value: {fileID: 21300000, guid: 9e8ea584086a64b4bb38c42cce5ab7f9, type: 3}
     - time: 0.16666667
-      value: {fileID: -2139933195839642654, guid: b6dc43f3c4cad0a4595c78683ee89882, type: 3}
-    - time: 0.25
-      value: {fileID: -8765662591171029760, guid: b6dc43f3c4cad0a4595c78683ee89882, type: 3}
+      value: {fileID: 21300000, guid: 9804555e7e8ec8045bd6969a34373e92, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,16 +44,15 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 1528503563734997927, guid: b6dc43f3c4cad0a4595c78683ee89882, type: 3}
-    - {fileID: -5934055767966506526, guid: b6dc43f3c4cad0a4595c78683ee89882, type: 3}
-    - {fileID: -2139933195839642654, guid: b6dc43f3c4cad0a4595c78683ee89882, type: 3}
-    - {fileID: -8765662591171029760, guid: b6dc43f3c4cad0a4595c78683ee89882, type: 3}
+    - {fileID: 21300000, guid: d8d8ffd881aec4c4186e8c9a722ff298, type: 3}
+    - {fileID: 21300000, guid: 9e8ea584086a64b4bb38c42cce5ab7f9, type: 3}
+    - {fileID: 21300000, guid: 9804555e7e8ec8045bd6969a34373e92, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.33333334
+    m_StopTime: 0.25
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
