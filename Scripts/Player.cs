@@ -205,7 +205,7 @@ public class Player : MonoBehaviour
                         //enemy.sawPlayer = true;
                         //enemy.currentPlayerPosition = transform.position;
                         //enemy.savedPlayerPosition = transform.position;
-                        Debug.Log("“ут враг");
+                        //Debug.Log("“ут враг");
                         
                         //Debug.Log(MapManager.map[xCord, yCord].enemy.name);
                     }

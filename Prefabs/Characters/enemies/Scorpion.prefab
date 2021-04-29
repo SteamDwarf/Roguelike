@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6990589694944137969}
   m_Layer: 6
-  m_Name: attackPos
+  m_Name: AttackPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,9 +232,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 1000000
+  m_LinearDrag: 1000000
+  m_AngularDrag: 1000000
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -254,9 +254,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 0}
-  defaultSpeed: 4
-  health: 20
-  maxHealth: 20
   currentPlayerPosition: {x: 0, y: 0}
+  attackPoses:
+  - {fileID: 6990589694944137969}
+  attackRanges:
+  - 1.77
+  attackDamages: 0a000000
+  defaultSpeed: 4
+  maxHealth: 20
   sawPlayer: 0
   startAgroTime: 10

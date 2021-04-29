@@ -9,20 +9,24 @@ public class Enemy : MonoBehaviour
     GameObject gameManager;
 
     public Image healthBar;
-    public float defaultSpeed;
-    public int health;
-    public int maxHealth;
     public Vector2 currentPlayerPosition;
+    public List<Transform> attackPoses;
+    public List<float> attackRanges;
+    public List<int> attackDamages;
+    
+
+    public float defaultSpeed;
+    public int maxHealth;
     public bool sawPlayer;
     public float startAgroTime;
-    /*public Transform attackPos;
-    public float attackRange;*/
 
     protected Rigidbody2D rB;
     protected Animator anim;
     protected Vector2 moveVelocity;
     protected Vector2 startPosition;
     protected Vector2 target;
+    protected List<Attack> enemyAttacks;
+
 
     protected int xCord;
     protected int yCord;
@@ -31,7 +35,10 @@ public class Enemy : MonoBehaviour
     protected string enemyName;
     protected float currentAgroTime;
     protected float speed;
+    protected int health;
     protected string currentAnimation;
+    protected bool isAttack = false;
+    protected float attackTime;
 
     // Start is called before the first frame update
     protected void Start()
@@ -46,13 +53,23 @@ public class Enemy : MonoBehaviour
         startPosition = transform.position;
         speed = defaultSpeed;
         faceTo = "Right";
+
+        enemyAttacks = new List<Attack>();
+        CreateAttacksList();
     }
 
     // Update is called once per frame
     protected void Update()
     {
-        DefaultBehavior();
-        Move(target, speed, currentAnimation);
+        if (!isAttack && attackTime <= 0)
+        {
+            DefaultBehavior();
+            Move(target, speed);
+        }
+        else
+            attackTime -= Time.deltaTime;
+            
+        //anim.Play(currentAnimation + enemyName);
     }
 
     /*private IEnumerator LookingPlayer()
@@ -65,22 +82,7 @@ public class Enemy : MonoBehaviour
             //savedPlayerPosition = currentPlayerPosition;
     }*/
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Player")
-        {
-            Attack();
-        }
-    }
-
-    void Flip()
-    {
-        Vector2 scaler = transform.localScale;
-        scaler.x *= -1;
-        transform.localScale = scaler;
-    }
-
-    protected void Move(Vector2 target, float moveSpeed, string animation)
+    protected void Move(Vector2 target, float moveSpeed)
     {
         //moveVelocity = (target - rB.position) * moveSpeed;
         moveVelocity = (target - rB.position) * moveSpeed;
@@ -95,9 +97,6 @@ public class Enemy : MonoBehaviour
             Flip();
         }
 
-        anim.Play(animation + enemyName);
-
-
         rB.MovePosition(rB.position +  moveVelocity * Time.deltaTime);
 
         xCord = Mathf.FloorToInt(transform.position.x / mapk + 0.5f);
@@ -110,51 +109,6 @@ public class Enemy : MonoBehaviour
         MapManager.map[xCord, yCord].hasEnemy = true;
         MapManager.map[xCord, yCord].enemy = this.gameObject;
 
-    }
-
-    /*protected void Move()
-    {
-        //moveVelocity = (target - rB.position) * moveSpeed;
-        moveVelocity = (target - rB.position) * speed;
-        if (target.x < transform.position.x && faceTo == "Right")
-        {
-            faceTo = "Left";
-            Flip();
-        }
-        else if (target.x > transform.position.x && faceTo == "Left")
-        {
-            faceTo = "Right";
-            Flip();
-        }
-
-        anim.Play(currentAnimation + enemyName);
-
-
-        rB.MovePosition(rB.position + moveVelocity * Time.deltaTime);
-
-        xCord = Mathf.FloorToInt(transform.position.x / mapk + 0.5f);
-        yCord = Mathf.FloorToInt(transform.position.y / mapk + 0.5f);
-        MapManager.map[xCord, yCord].hasEnemy = false;
-        MapManager.map[xCord, yCord].enemy = null;
-        transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        xCord = Mathf.FloorToInt(transform.position.x / mapk + 0.5f);
-        yCord = Mathf.FloorToInt(transform.position.y / mapk + 0.5f);
-        MapManager.map[xCord, yCord].hasEnemy = true;
-        MapManager.map[xCord, yCord].enemy = this.gameObject;
-
-    }*/
-
-    private void Attack()
-    {
-        Debug.Log("Враг атакует");
-    }
-
-    public void SawPlayer(Vector2 playerPos)
-    {
-        currentPlayerPosition = playerPos;
-        currentAgroTime = startAgroTime;
-        sawPlayer = true;
-        Debug.Log("SawPlayer:" + sawPlayer);
     }
 
     protected void DefaultBehavior()
@@ -182,12 +136,55 @@ public class Enemy : MonoBehaviour
             target = startPosition;
             currentAnimation = "Walk";
             speed = defaultSpeed;
+
+            if (Vector2.Distance(transform.position, target) < 0.1)
+                currentAnimation = "Idle";
         }
+
+        anim.Play(currentAnimation + enemyName);
 
         if (currentAgroTime <= 0)
         {
             sawPlayer = false;
         }
     }
+
+    private void CreateAttacksList()
+    {
+        int attacksCount = attackPoses.Count;
+
+        for (int i = 0; i < attacksCount; i++)
+        {
+            string name = attackPoses[i].name.Substring(0, attackPoses[i].name.Length - 3);
+            Vector2 pos = attackPoses[i].position;
+            float range = attackRanges[i];
+            int damage = attackDamages[i];
+
+            Attack attack = new Attack(name, pos, range, damage);
+            enemyAttacks.Add(attack);
+        }
+    }
+
+    void Flip()
+    {
+        Vector2 scaler = transform.localScale;
+        scaler.x *= -1;
+        transform.localScale = scaler;
+    }
+
+    protected virtual void MakeAttack()
+    {
+        Debug.Log("Враг атакует");
+    }
+
+    public void SawPlayer(Vector2 playerPos)
+    {
+        currentPlayerPosition = playerPos;
+        currentAgroTime = startAgroTime;
+        sawPlayer = true;
+        //Debug.Log("SawPlayer:" + sawPlayer);
+    }
+
+   
 
 }
