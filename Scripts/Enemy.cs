@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum EnemyState
+{
+    idle,
+    walk,
+    run, 
+    attack
+}
+
 public class Enemy : MonoBehaviour
 {
     DungeonGenerator DG;
@@ -13,12 +21,15 @@ public class Enemy : MonoBehaviour
     public List<Transform> attackPoses;
     public List<float> attackRanges;
     public List<int> attackDamages;
+    public EnemyState currentState;
     
 
     public float defaultSpeed;
     public int maxHealth;
     public bool sawPlayer;
     public float startAgroTime;
+    public int maxStamina;
+    public float attackRadius;
 
     protected Rigidbody2D rB;
     protected Animator anim;
@@ -36,9 +47,10 @@ public class Enemy : MonoBehaviour
     protected float currentAgroTime;
     protected float speed;
     protected int health;
+    protected float stamina;
     protected string currentAnimation;
-    protected bool isAttack = false;
     protected float attackTime;
+    protected string curAttack;
 
     // Start is called before the first frame update
     protected void Start()
@@ -46,13 +58,15 @@ public class Enemy : MonoBehaviour
         gameManager = GameObject.Find("GameManager");
         rB = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-
         DG = gameManager.GetComponent<DungeonGenerator>();
+
         mapk = DG.mapk;
         enemyName = gameObject.name.Split('(')[0];
         startPosition = transform.position;
         speed = defaultSpeed;
         faceTo = "Right";
+        currentState = EnemyState.idle;
+        stamina = maxStamina;
 
         enemyAttacks = new List<Attack>();
         CreateAttacksList();
@@ -61,54 +75,46 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
-        if (!isAttack && attackTime <= 0)
+        if(currentState != EnemyState.attack)
         {
             DefaultBehavior();
             Move(target, speed);
         }
-        else
-            attackTime -= Time.deltaTime;
-            
-        //anim.Play(currentAnimation + enemyName);
+
+        attackTime -= Time.deltaTime;
+        AnimPlay();
+        RefreshStamina();
     }
 
-    /*private IEnumerator LookingPlayer()
-    {
-        Debug.Log("Корутин стартовал");
-        yield return new WaitForSeconds(5f);
-        //if(savedPlayerPosition == currentPlayerPosition)
-            sawPlayer = false;
-        else
-            //savedPlayerPosition = currentPlayerPosition;
-    }*/
 
     protected void Move(Vector2 target, float moveSpeed)
     {
-        //moveVelocity = (target - rB.position) * moveSpeed;
-        moveVelocity = (target - rB.position) * moveSpeed;
-        if(target.x < transform.position.x && faceTo == "Right")
+        if(Vector2.Distance(target, transform.position) > attackRadius)
         {
-            faceTo = "Left";
-            Flip();
+            moveVelocity = (target - rB.position) * moveSpeed;
+            if (target.x < transform.position.x && faceTo == "Right")
+            {
+                faceTo = "Left";
+                Flip();
+            }
+            else if (target.x > transform.position.x && faceTo == "Left")
+            {
+                faceTo = "Right";
+                Flip();
+            }
+
+            rB.MovePosition(rB.position + moveVelocity * Time.deltaTime);
+
+            xCord = Mathf.FloorToInt(transform.position.x / mapk + 0.5f);
+            yCord = Mathf.FloorToInt(transform.position.y / mapk + 0.5f);
+            MapManager.map[xCord, yCord].hasEnemy = false;
+            MapManager.map[xCord, yCord].enemy = null;
+            transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+            xCord = Mathf.FloorToInt(transform.position.x / mapk + 0.5f);
+            yCord = Mathf.FloorToInt(transform.position.y / mapk + 0.5f);
+            MapManager.map[xCord, yCord].hasEnemy = true;
+            MapManager.map[xCord, yCord].enemy = this.gameObject;
         }
-        else if(target.x > transform.position.x && faceTo == "Left")
-        {
-            faceTo = "Right";
-            Flip();
-        }
-
-        rB.MovePosition(rB.position +  moveVelocity * Time.deltaTime);
-
-        xCord = Mathf.FloorToInt(transform.position.x / mapk + 0.5f);
-        yCord = Mathf.FloorToInt(transform.position.y / mapk + 0.5f);
-        MapManager.map[xCord, yCord].hasEnemy = false;
-        MapManager.map[xCord, yCord].enemy = null;
-        transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
-        xCord = Mathf.FloorToInt(transform.position.x / mapk + 0.5f);
-        yCord = Mathf.FloorToInt(transform.position.y / mapk + 0.5f);
-        MapManager.map[xCord, yCord].hasEnemy = true;
-        MapManager.map[xCord, yCord].enemy = this.gameObject;
-
     }
 
     protected void DefaultBehavior()
@@ -116,32 +122,21 @@ public class Enemy : MonoBehaviour
         if (sawPlayer)
         {
             target = currentPlayerPosition;
-            currentAnimation = "Run";
+            currentState = EnemyState.run;
             speed = defaultSpeed * 2;
             currentAgroTime -= Time.deltaTime;
-            /*if(Mathf.Abs(Vector2.Distance(transform.position, currentPlayerPosition)) < 5)
-            {
-                xPlayerCord = Mathf.FloorToInt(currentPlayerPosition.x / mapk + 0.5f);
-                yPlayerCord = Mathf.FloorToInt(currentPlayerPosition.y / mapk + 0.5f);
-
-                Debug.Log(MapManager.map[xPlayerCord, yPlayerCord].hasPlayer);
-                if (MapManager.map[xPlayerCord, yPlayerCord].hasPlayer)
-                    Attack();
-                else
-                    sawPlayer = false;
-            }*/
         }
         else
         {
             target = startPosition;
-            currentAnimation = "Walk";
+            currentState = EnemyState.walk;
             speed = defaultSpeed;
 
             if (Vector2.Distance(transform.position, target) < 0.1)
-                currentAnimation = "Idle";
+                currentState = EnemyState.idle;
         }
 
-        anim.Play(currentAnimation + enemyName);
+        //anim.Play(currentAnimation + enemyName);
 
         if (currentAgroTime <= 0)
         {
@@ -165,6 +160,20 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    protected void RefreshStamina()
+    {
+        if (stamina < maxStamina && currentState != EnemyState.attack)
+            stamina += 0.1f;
+    }
+
+    protected IEnumerator Attacking()
+    {
+        //Debug.Log("Корутин стартовал");
+        currentState = EnemyState.attack;
+        yield return new WaitForSeconds(0.5f);
+        currentState = EnemyState.idle;
+    }
+
     void Flip()
     {
         Vector2 scaler = transform.localScale;
@@ -174,7 +183,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void MakeAttack()
     {
-        Debug.Log("Враг атакует");
+        //Debug.Log("Враг атакует");
     }
 
     public void SawPlayer(Vector2 playerPos)
@@ -185,6 +194,24 @@ public class Enemy : MonoBehaviour
         //Debug.Log("SawPlayer:" + sawPlayer);
     }
 
-   
+    protected void AnimPlay()
+    {
+        switch(currentState)
+        {  
+            case EnemyState.idle:
+                anim.Play("Idle" + enemyName);
+                break;
+            case EnemyState.walk:
+                anim.Play("Walk" + enemyName);
+                break;
+            case EnemyState.run:
+                anim.Play("Run" + enemyName);
+                break;
+            case EnemyState.attack:
+                anim.Play(curAttack + enemyName);
+                //anim.SetTrigger(curAttack);
+                break;
+        }
+    }
 
 }

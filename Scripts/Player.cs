@@ -64,7 +64,6 @@ public class Player : MonoBehaviour
     public void Update()
     {
         Combat();
-        //Move();
         HealthBarChange();
         Actions();
     }
@@ -145,17 +144,17 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetTrigger("isAttackA1");
-            MakeDamage.Action(hitPos.position, hitRange, 6, damage, true);
+            //MakeDamage.Action(hitPos.position, hitRange, 6, damage, true);
 
 
             /*Debug.Log(mapk);
             Debug.Log(transform.position);*/
             //Debug.Log(MapManager.map[(int)transform.position.x, (int)transform.position.y].hasPlayer);
-            int x = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
-            int y = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
+            /*int x = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
+            int y = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);*/
             /*Debug.Log(x);
             Debug.Log(y);*/
-            Debug.Log(MapManager.map[x, y].hasPlayer);
+            //Debug.Log(MapManager.map[x, y].hasPlayer);
 
         }
 

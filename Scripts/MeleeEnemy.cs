@@ -10,43 +10,53 @@ public class MeleeEnemy : Enemy
         base.Start();
     }
 
-    // Update is called once per frame
     new void Update()
     {
         base.Update();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    /*private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if(stamina < 15f)
         {
-            isAttack = true;
-            MakeAttack();
-            isAttack = false;
+            Debug.Log("Он не должен атаковать");
         }
-    }
+        if (collision.gameObject.tag == "Player" && stamina >= 15f)
+        {
+            StartCoroutine(Attacking());
+            MakeAttack();
+            Debug.Log(stamina);
+           
+        }
+    }*/
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (stamina < 30f)
         {
-            isAttack = true;
+            //Debug.Log("Он не должен атаковать");
+            //Debug.Log(currentState);
+        }
+        if (collision.gameObject.tag == "Player" && stamina >= 30f)
+        {
+            StartCoroutine(Attacking());
             MakeAttack();
-            isAttack = false;
-
+            //Debug.Log(stamina);
         }
     }
 
     protected override void MakeAttack()
     {
-        attackTime = 1f;
         int attackInd = Random.Range(0, enemyAttacks.Count);
         Attack attack = enemyAttacks[attackInd];
-        currentAnimation = attack.name;
-        anim.Play(currentAnimation + enemyName);
-        Debug.Log(isAttack);
-        Debug.Log(currentAnimation );
-        Debug.Log("Где анимация!!!!");
+        attackTime = 1f;
+        stamina -= 30;
+        curAttack = attack.name;
+        //anim.Play(currentAnimation + enemyName);
+        //Debug.Log(isAttack);
+        /*Debug.Log(curAttack);
+        Debug.Log(enemyName);*/
+        //Debug.Log("Враг атакует");
     }
 
 

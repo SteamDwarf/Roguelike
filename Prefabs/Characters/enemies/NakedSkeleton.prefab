@@ -161,10 +161,13 @@ MonoBehaviour:
   - 0.187
   - 0.25
   attackDamages: 0a00000014000000
+  currentState: 0
   defaultSpeed: 4
   maxHealth: 20
   sawPlayer: 0
   startAgroTime: 10
+  maxStamina: 100
+  attackRadius: 2
 --- !u!50 &4954252919636044100
 Rigidbody2D:
   serializedVersion: 4

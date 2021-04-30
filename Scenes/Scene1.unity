@@ -553,8 +553,8 @@ MonoBehaviour:
   floorPrefab:
   - {fileID: 4249247623920392998, guid: 952aab719934a7c4292ad3ffb8942d5c, type: 3}
   enemies:
-  - {fileID: 536054370750515619, guid: d4a88551ea42dcf499b8b9c7d43235c9, type: 3}
+  - {fileID: 2303827705498956985, guid: d4a88551ea42dcf499b8b9c7d43235c9, type: 3}
   - {fileID: 1814271842791337084, guid: d4802941e5df1884a9c0a84675821e96, type: 3}
-  - {fileID: 1679201114901134538, guid: 8be61ccda9943c344815b9058ac13737, type: 3}
+  - {fileID: 4951347071227870269, guid: 8be61ccda9943c344815b9058ac13737, type: 3}
   spawnedEnemies: []
   mapk: 10
