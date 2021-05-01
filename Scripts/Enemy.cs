@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
 
     public Image healthBar;
     public Vector2 currentPlayerPosition;
-    public List<Transform> attackPoses;
+    public List<GameObject> attackPoses;
     public List<float> attackRanges;
     public List<int> attackDamages;
     public EnemyState currentState;
@@ -52,6 +52,8 @@ public class Enemy : MonoBehaviour
     protected float attackTime;
     protected string curAttack;
 
+
+
     // Start is called before the first frame update
     protected void Start()
     {
@@ -59,6 +61,7 @@ public class Enemy : MonoBehaviour
         rB = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         DG = gameManager.GetComponent<DungeonGenerator>();
+        //hitBox = gameObject.GetComponent<HitBox>();
 
         mapk = DG.mapk;
         enemyName = gameObject.name.Split('(')[0];
@@ -67,6 +70,7 @@ public class Enemy : MonoBehaviour
         faceTo = "Right";
         currentState = EnemyState.idle;
         stamina = maxStamina;
+        health = maxHealth;
 
         enemyAttacks = new List<Attack>();
         CreateAttacksList();
@@ -151,13 +155,15 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < attacksCount; i++)
         {
             string name = attackPoses[i].name.Substring(0, attackPoses[i].name.Length - 3);
-            Vector2 pos = attackPoses[i].position;
+            //Vector2 pos = attackPoses[i].position;
             float range = attackRanges[i];
             int damage = attackDamages[i];
 
-            Attack attack = new Attack(name, pos, range, damage);
+            Attack attack = new Attack(name, range, damage);
             enemyAttacks.Add(attack);
+            //attackPoses[i].GetComponent<HitBox>().damage = damage;
         }
+
     }
 
     protected void RefreshStamina()
@@ -214,4 +220,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void GetDamage(int damage)
+    {
+        //StartCoroutine(Hurting());
+        Debug.Log("Враг получил дамаг");
+        health -= damage;
+    }
 }

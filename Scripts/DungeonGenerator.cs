@@ -380,7 +380,7 @@ public class DungeonGenerator : MonoBehaviour
 
                 Vector2Int spawnPoint = room.positions[tileInd];
 
-                if (MapManager.map[spawnPoint.x, spawnPoint.y].type == "Wall")
+                if (MapManager.map[spawnPoint.x, spawnPoint.y].type == "Wall" || MapManager.map[spawnPoint.x, spawnPoint.y].furniture != null)
                     continue;
                 else if (MapManager.map[spawnPoint.x, spawnPoint.y].hasEnemy)
                     continue;

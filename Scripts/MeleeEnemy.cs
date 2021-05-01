@@ -52,6 +52,7 @@ public class MeleeEnemy : Enemy
         attackTime = 1f;
         stamina -= 30;
         curAttack = attack.name;
+        //hitBox.damage = attack.damage;
         //anim.Play(currentAnimation + enemyName);
         //Debug.Log(isAttack);
         /*Debug.Log(curAttack);

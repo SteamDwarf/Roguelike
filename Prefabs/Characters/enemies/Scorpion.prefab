@@ -226,7 +226,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   currentPlayerPosition: {x: 0, y: 0}
   attackPoses:
-  - {fileID: 7541868207669797212}
+  - {fileID: 6593428497042642810}
   attackRanges:
   - 1.77
   attackDamages: 0a000000
@@ -246,13 +246,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7541868207669797212}
+  - component: {fileID: 2773453603920062328}
+  - component: {fileID: 7702373763847448802}
   m_Layer: 6
   m_Name: AttackPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7541868207669797212
 Transform:
   m_ObjectHideFlags: 0
@@ -267,3 +269,49 @@ Transform:
   m_Father: {fileID: 4444474810526403868}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &2773453603920062328
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6593428497042642810}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.8181764, y: 0.45454907}
+      - {x: -0.95105654, y: 0.30901697}
+      - {x: -1.6786871, y: -0.8908347}
+      - {x: -1.3485656, y: -5.44535}
+      - {x: -0.081933856, y: -5.5127845}
+      - {x: 1.2758949, y: -4.4014077}
+      - {x: 1.700264, y: -2.8102908}
+      - {x: 0.67833114, y: -0.18188876}
+--- !u!114 &7702373763847448802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6593428497042642810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffa69f1adeb2aa74aa35ba5e542848e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1

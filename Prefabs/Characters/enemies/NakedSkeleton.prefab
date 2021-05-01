@@ -9,13 +9,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2103440419476919002}
+  - component: {fileID: 3641350631315594418}
+  - component: {fileID: 8238462772570101375}
   m_Layer: 6
   m_Name: Attack_2Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2103440419476919002
 Transform:
   m_ObjectHideFlags: 0
@@ -30,6 +32,49 @@ Transform:
   m_Father: {fileID: 5501369849041279519}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &3641350631315594418
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830184375740830254}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.15255547, y: 0.34030056}
+      - {x: -0.287234, y: 0.10698402}
+      - {x: -0.2950436, y: -0.33073494}
+      - {x: 0.043533325, y: -0.31424236}
+      - {x: 0.25424898, y: 0.21006224}
+--- !u!114 &8238462772570101375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830184375740830254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffa69f1adeb2aa74aa35ba5e542848e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
 --- !u!1 &1814271842791337084
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,8 +200,8 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   currentPlayerPosition: {x: 0, y: 0}
   attackPoses:
-  - {fileID: 1801817878353164382}
-  - {fileID: 2103440419476919002}
+  - {fileID: 7865370217195990883}
+  - {fileID: 830184375740830254}
   attackRanges:
   - 0.187
   - 0.25
@@ -255,13 +300,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1255241277802552255}
+  - component: {fileID: 5070111290315768146}
+  - component: {fileID: 2247133929181363431}
   m_Layer: 6
-  m_Name: Attack_2Pos
+  m_Name: Attack_3Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1255241277802552255
 Transform:
   m_ObjectHideFlags: 0
@@ -276,6 +323,50 @@ Transform:
   m_Father: {fileID: 5501369849041279519}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5070111290315768146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7023703965172651624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffa69f1adeb2aa74aa35ba5e542848e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+--- !u!60 &2247133929181363431
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7023703965172651624}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.22264856, y: 0.44750172}
+      - {x: -0.32846522, y: 0.1605846}
+      - {x: -0.32495683, y: -0.25750828}
+      - {x: 0.045345612, y: -0.41644987}
+      - {x: 0.16122785, y: -0.2445823}
+      - {x: 0.22538722, y: 0.020398617}
 --- !u!1 &7865370217195990883
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,13 +376,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1801817878353164382}
+  - component: {fileID: 1291515156203068604}
+  - component: {fileID: 1017827654428122041}
   m_Layer: 6
   m_Name: Attack_1Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1801817878353164382
 Transform:
   m_ObjectHideFlags: 0
@@ -306,3 +399,47 @@ Transform:
   m_Father: {fileID: 5501369849041279519}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1291515156203068604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7865370217195990883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffa69f1adeb2aa74aa35ba5e542848e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+--- !u!60 &1017827654428122041
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7865370217195990883}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.019671848, y: 0.32309642}
+      - {x: -0.2927416, y: 0.6000573}
+      - {x: -0.35320395, y: 0.515173}
+      - {x: -0.3321517, y: -0.12457891}
+      - {x: 0.07239518, y: -0.3183655}
+      - {x: 0.21301788, y: 0.05338362}
