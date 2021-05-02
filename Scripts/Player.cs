@@ -18,11 +18,12 @@ public class Player : MonoBehaviour
     public List<GameObject> hitBoxes;
     //public Transform hitPos;
     public float speed;
-    public int maxHealth;
+    public float maxHealth;
     public int maxStamina;
     public int noiseRange;
     public float hitRange;
     public int damage;
+    public bool isDied;
     
 
     //private new CameraScript camera;
@@ -45,6 +46,7 @@ public class Player : MonoBehaviour
     private float health;
     private float stamina;
     private float staminaPerAttack;
+    private float defence;
 
 
     public void Start()
@@ -71,7 +73,9 @@ public class Player : MonoBehaviour
         mapHeight = dungeon.mapHeight;
         health = maxHealth;
         stamina = maxStamina;
+        defence = 1;
         staminaPerAttack = 30;
+        isDied = false;
 
         foreach (var hitBox in hitBoxes)
         {
@@ -85,6 +89,7 @@ public class Player : MonoBehaviour
         StatBarChange();
         Actions();
         StaminaRefresh();
+        NoiseFOVCheck(curX, curY);
     }
     public void FixedUpdate()
     {
@@ -146,9 +151,6 @@ public class Player : MonoBehaviour
             curY = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
             MapManager.map[curX, curY].hasPlayer = true;
             //Debug.Log(MapManager.map[curX, curY].hasPlayer);
-            NoiseFOVCheck(curX, curY);
-            
-
         }
         else
         {
@@ -173,28 +175,17 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && anim.isAttacking == false &&  stamina >= staminaPerAttack)
         {
-            //Debug.Log("Атакую!");
-            //Debug.Log(stamina);
             stamina -= 30;
             StartCoroutine(Attacking());
-            //anim.SetTrigger("isAttackA1");
-            //MakeDamage.Action(hitPos.position, hitRange, 6, damage, true);
-
-
-            /*Debug.Log(mapk);
-            Debug.Log(transform.position);*/
-            //Debug.Log(MapManager.map[(int)transform.position.x, (int)transform.position.y].hasPlayer);
-            /*int x = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
-            int y = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);*/
-            /*Debug.Log(x);
-            Debug.Log(y);*/
-            //Debug.Log(MapManager.map[x, y].hasPlayer);
-
         }
 
         if(Input.GetMouseButtonDown(1))
         {
-            int x = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
+            defence = 2;
+            //anim.curState = "Block";
+            anim.getBlocking = true;
+
+            /*int x = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
             int y = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
 
             for (int i = x - 4; i < x + 4; i++)
@@ -203,7 +194,18 @@ public class Player : MonoBehaviour
                 {
                     Debug.Log(MapManager.map[x, y].hasPlayer);
                 }
-            }
+            }*/
+        }
+
+        /*if (Input.GetMouseButton(1))
+            anim.curState = "Blocking";*/
+
+        if(Input.GetMouseButtonUp(1))
+        {
+            anim.isBlocking = false;
+            anim.curState = "Idle";
+            defence = 1;
+            anim.animIsBlocked = false;
         }
 
     }
@@ -215,6 +217,14 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         anim.isAttacking = false;
     }
+
+    /*private IEnumerator Blocking()
+    {
+        anim.isBlocking = true;
+        anim.curState = "Block";
+        yield return new WaitForSeconds(0.5f);
+        anim.curState = "Blocking";
+    }*/
 
     private IEnumerator Hurting()
     {
@@ -292,6 +302,7 @@ public class Player : MonoBehaviour
 
     public void GetDamage(float damage)
     {
+        Debug.Log("Игрок получил дамаг");
         StartCoroutine(Hurting());
         health -= damage;
     }

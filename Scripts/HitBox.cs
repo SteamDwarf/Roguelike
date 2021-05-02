@@ -9,11 +9,28 @@ public class HitBox : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject hitTarget = collision.gameObject;
-        if (hitTarget.tag == "Player")
-            hitTarget.GetComponent<Player>().GetDamage(damage);
-        else if (hitTarget.tag == "Enemy")
-            hitTarget.GetComponent<Enemy>().GetDamage(damage);
 
-        Debug.Log("¬‡„ ‡Ú‡ÍÛÂÚ" + collision.gameObject.name);
+        if (hitTarget.tag == "Player")
+        {
+            Player playerScript = hitTarget.GetComponent<Player>();
+
+            if (playerScript.isDied)
+                return;
+
+            playerScript.GetDamage(damage);
+        }     
+        else if (hitTarget.tag == "Enemy")
+        {
+            Enemy enemyScript = hitTarget.GetComponent<Enemy>();
+
+            if (enemyScript.isDied)
+                return;
+
+            enemyScript.GetDamage(damage);
+        }
+            
+
+        Debug.Log("¿“¿ ”≈“" + collision.gameObject.name);
+        Debug.Log(damage);
     }
 }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7445858361606583981}
   - component: {fileID: 6479516350792376181}
   - component: {fileID: 5390544552748778399}
+  - component: {fileID: -8136911152735667805}
   m_Layer: 6
   m_Name: Scorpion
   m_TagString: Enemy
@@ -229,14 +230,29 @@ MonoBehaviour:
   - {fileID: 6593428497042642810}
   attackRanges:
   - 1.77
-  attackDamages: 0a000000
-  currentState: 0
+  attackDamages: 01000000
   defaultSpeed: 4
   maxHealth: 20
   sawPlayer: 0
   startAgroTime: 10
   maxStamina: 100
   attackRadius: 2
+--- !u!114 &-8136911152735667805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4951347071227870269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c1f5a970d082642bc1375d25009c0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curState: 
+  isAttacking: 0
+  isHurting: 0
+  curAttack: 
 --- !u!1 &6593428497042642810
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,4 +330,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa69f1adeb2aa74aa35ba5e542848e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 0

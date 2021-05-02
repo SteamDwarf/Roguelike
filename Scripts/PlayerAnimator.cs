@@ -19,8 +19,13 @@ public class PlayerAnimator : MonoBehaviour
     public string curState;
     public string faceTo;
     public bool isAttacking;
+    public bool isBlocking;
+    public bool getBlocking;
     public bool isHurting;
     public string curAttack;
+
+    private string prevFaceTo;
+    public bool animIsBlocked;
 
     void Start()
     {
@@ -40,17 +45,32 @@ public class PlayerAnimator : MonoBehaviour
 
         curState = "Idle";
         faceTo = "Front";
+        animIsBlocked = false;
+        prevFaceTo = faceTo;
         curAnimator = playerFrontAnim;
     }
 
     private void FixedUpdate()
     {
+        CheckAnimBlocked();
         ChangeFaceTo();
     }
 
+    private void CheckAnimBlocked()
+    {
+        if (isAttacking && curAnimator.GetCurrentAnimatorStateInfo(0).IsName("player" + curAttack + prevFaceTo))
+            animIsBlocked = true;
+        else
+            animIsBlocked = false;
+    }
+
     private void ChangeFaceTo()
-    {   
-        switch(faceTo)
+    {
+        if (animIsBlocked)
+            return;
+
+        prevFaceTo = faceTo;
+        switch (faceTo)
         {
             case "Front":
                 playerBack.SetActive(false);
@@ -92,9 +112,21 @@ public class PlayerAnimator : MonoBehaviour
             curAnimator.Play("player" + curAttack + faceTo);
         else if (isHurting)
             curAnimator.Play("player" + "Hurt" + faceTo);
+        else if (getBlocking)
+        {
+            animIsBlocked = true;
+            curAnimator.Play("player" + "Block" + faceTo);
+            getBlocking = false;
+            isBlocking = true;
+            AnimationPlay();
+        }
+        else if (isBlocking)
+        {
+            curAnimator.Play("player" + "Blocking" + faceTo);
+            animIsBlocked = false;
+        }
         else
             curAnimator.Play("player" + curState + faceTo);
-
     }
 
 }

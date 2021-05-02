@@ -83,7 +83,8 @@ MonoBehaviour:
   maxStamina: 100
   noiseRange: 0
   hitRange: 0
-  damage: 2
+  damage: 1
+  isDied: 0
 --- !u!114 &-7152940365025018608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,6 +104,7 @@ MonoBehaviour:
   curState: 
   faceTo: 
   isAttacking: 0
+  isBlocking: 0
   isHurting: 0
   curAttack: 
 --- !u!61 &1072617321315262203

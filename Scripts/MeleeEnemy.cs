@@ -32,13 +32,10 @@ public class MeleeEnemy : Enemy
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (stamina < 30f)
-        {
-            //Debug.Log("Он не должен атаковать");
-            //Debug.Log(currentState);
-        }
+        
         if (collision.gameObject.tag == "Player" && stamina >= 30f)
         {
+            currentAgroTime = startAgroTime;
             StartCoroutine(Attacking());
             MakeAttack();
             //Debug.Log(stamina);
@@ -52,7 +49,8 @@ public class MeleeEnemy : Enemy
         attackTime = 1f;
         stamina -= 30;
         curAttack = attack.name;
-        //hitBox.damage = attack.damage;
+        currentAgroTime = startAgroTime;
+        attackPoses[attackInd].GetComponent<HitBox>().damage = attack.damage;
         //anim.Play(currentAnimation + enemyName);
         //Debug.Log(isAttack);
         /*Debug.Log(curAttack);

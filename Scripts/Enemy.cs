@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum EnemyState
+/*public enum EnemyState
 {
     idle,
     walk,
     run, 
     attack
-}
+}*/
 
 public class Enemy : MonoBehaviour
 {
     DungeonGenerator DG;
     GameObject gameManager;
+    EnemyAnimator anim;
 
     public Image healthBar;
     public Vector2 currentPlayerPosition;
     public List<GameObject> attackPoses;
     public List<float> attackRanges;
     public List<int> attackDamages;
-    public EnemyState currentState;
-    
+    //public EnemyState currentState;
+
 
     public float defaultSpeed;
     public int maxHealth;
@@ -30,9 +31,10 @@ public class Enemy : MonoBehaviour
     public float startAgroTime;
     public int maxStamina;
     public float attackRadius;
+    public bool isDied;
 
     protected Rigidbody2D rB;
-    protected Animator anim;
+    //protected Animator anim;
     protected Vector2 moveVelocity;
     protected Vector2 startPosition;
     protected Vector2 target;
@@ -43,7 +45,7 @@ public class Enemy : MonoBehaviour
     protected int yCord;
     protected string faceTo;
     protected float mapk;
-    protected string enemyName;
+    //protected string enemyName;
     protected float currentAgroTime;
     protected float speed;
     protected int health;
@@ -51,6 +53,7 @@ public class Enemy : MonoBehaviour
     protected string currentAnimation;
     protected float attackTime;
     protected string curAttack;
+    
 
 
 
@@ -59,18 +62,19 @@ public class Enemy : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager");
         rB = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        anim = GetComponent<EnemyAnimator>();
         DG = gameManager.GetComponent<DungeonGenerator>();
         //hitBox = gameObject.GetComponent<HitBox>();
 
         mapk = DG.mapk;
-        enemyName = gameObject.name.Split('(')[0];
+        //enemyName = gameObject.name.Split('(')[0];
         startPosition = transform.position;
         speed = defaultSpeed;
         faceTo = "Right";
-        currentState = EnemyState.idle;
+        //currentState = EnemyState.idle;
         stamina = maxStamina;
         health = maxHealth;
+        isDied = false;
 
         enemyAttacks = new List<Attack>();
         CreateAttacksList();
@@ -79,21 +83,40 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
-        if(currentState != EnemyState.attack)
+        if (isDied)
+            return;
+
+        if (!anim.isAttacking)
         {
             DefaultBehavior();
             Move(target, speed);
         }
-
-        attackTime -= Time.deltaTime;
-        AnimPlay();
+        //attackTime -= Time.deltaTime;
+        //AnimPlay();
         RefreshStamina();
     }
 
+    private void CreateAttacksList()
+    {
+        int attacksCount = attackPoses.Count;
+
+        for (int i = 0; i < attacksCount; i++)
+        {
+            string name = attackPoses[i].name.Substring(0, attackPoses[i].name.Length - 3);
+            //Vector2 pos = attackPoses[i].position;
+            float range = attackRanges[i];
+            int damage = attackDamages[i];
+
+            Attack attack = new Attack(name, range, damage);
+            enemyAttacks.Add(attack);
+            attackPoses[i].GetComponent<HitBox>().damage = damage;
+        }
+
+    }
 
     protected void Move(Vector2 target, float moveSpeed)
     {
-        if(Vector2.Distance(target, transform.position) > attackRadius)
+        if (Vector2.Distance(target, transform.position) > attackRadius)
         {
             moveVelocity = (target - rB.position) * moveSpeed;
             if (target.x < transform.position.x && faceTo == "Right")
@@ -126,18 +149,21 @@ public class Enemy : MonoBehaviour
         if (sawPlayer)
         {
             target = currentPlayerPosition;
-            currentState = EnemyState.run;
+            //currentState = EnemyState.run;
+            anim.curState = "Run";
             speed = defaultSpeed * 2;
             currentAgroTime -= Time.deltaTime;
         }
         else
         {
             target = startPosition;
-            currentState = EnemyState.walk;
+            //currentState = EnemyState.walk;
+            anim.curState = "Walk";
             speed = defaultSpeed;
 
-            if (Vector2.Distance(transform.position, target) < 0.1)
-                currentState = EnemyState.idle;
+            if (Vector2.Distance(transform.position, target) < 0.001)
+                anim.curState = "Idle";
+            //currentState = EnemyState.idle;
         }
 
         //anim.Play(currentAnimation + enemyName);
@@ -148,36 +174,33 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void CreateAttacksList()
-    {
-        int attacksCount = attackPoses.Count;
 
-        for (int i = 0; i < attacksCount; i++)
-        {
-            string name = attackPoses[i].name.Substring(0, attackPoses[i].name.Length - 3);
-            //Vector2 pos = attackPoses[i].position;
-            float range = attackRanges[i];
-            int damage = attackDamages[i];
-
-            Attack attack = new Attack(name, range, damage);
-            enemyAttacks.Add(attack);
-            //attackPoses[i].GetComponent<HitBox>().damage = damage;
-        }
-
-    }
 
     protected void RefreshStamina()
     {
-        if (stamina < maxStamina && currentState != EnemyState.attack)
-            stamina += 0.1f;
+        if (stamina < maxStamina)
+        {
+            if (anim.curState == "Idle")
+                stamina += Time.deltaTime * 20;
+            else if (anim.curState == "Run")
+                stamina += Time.deltaTime * 10;
+        }
     }
 
     protected IEnumerator Attacking()
     {
-        //Debug.Log("Корутин стартовал");
-        currentState = EnemyState.attack;
+        anim.curAttack = curAttack;
+        anim.isAttacking = true;
         yield return new WaitForSeconds(0.5f);
-        currentState = EnemyState.idle;
+        anim.isAttacking = false;
+    }
+
+    protected IEnumerator Hurting()
+    {
+        anim.curState = "Hurt";
+        anim.isHurting = true;
+        yield return new WaitForSeconds(0.5f);
+        anim.isHurting = false;
     }
 
     void Flip()
@@ -200,7 +223,7 @@ public class Enemy : MonoBehaviour
         //Debug.Log("SawPlayer:" + sawPlayer);
     }
 
-    protected void AnimPlay()
+    /*protected void AnimPlay()
     {
         switch(currentState)
         {  
@@ -218,12 +241,21 @@ public class Enemy : MonoBehaviour
                 //anim.SetTrigger(curAttack);
                 break;
         }
-    }
+    }*/
 
     public void GetDamage(int damage)
     {
-        //StartCoroutine(Hurting());
-        Debug.Log("Враг получил дамаг");
-        health -= damage;
+        if (health > 0)
+        {
+            StartCoroutine(Hurting());
+            health -= damage;
+            currentAgroTime = startAgroTime;
+        }
+        else if (health <= 0)
+        {
+            anim.curState = "Dying";
+            isDied = true;
+        }
+           
     }
 }
