@@ -100,8 +100,10 @@ public class Player : MonoBehaviour
     {
         inputMovement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         moveVelocity = inputMovement * speed;
-        if (inputMovement.x != 0 || inputMovement.y != 0)
+        if ((inputMovement.x != 0 || inputMovement.y != 0))
         {
+            //anim.curState = "Run";
+            anim.isMoving = true;
             anim.curState = "Run";
 
             if (inputMovement.y > 0)
@@ -154,7 +156,8 @@ public class Player : MonoBehaviour
         }
         else
         {
-            anim.curState = "Idle";
+            anim.isMoving = false;
+            //anim.curState = "Idle";
             /*anim.SetBool("runFrontA1", false);
             anim.SetBool("runBackA1", false);
             anim.SetBool("runLeftA1", false);
@@ -173,17 +176,22 @@ public class Player : MonoBehaviour
 
     private void Combat()
     {
-        if (Input.GetMouseButtonDown(0) && anim.isAttacking == false &&  stamina >= staminaPerAttack)
+        if(Input.GetMouseButtonDown(0) && stamina >= staminaPerAttack && anim.isActing == false)
         {
             stamina -= 30;
             StartCoroutine(Attacking());
         }
+        /*if (Input.GetMouseButtonDown(0) && anim.isAttacking == false &&  stamina >= staminaPerAttack)
+        {
+            stamina -= 30;
+            StartCoroutine(Attacking());
+        }*/
 
-        if(Input.GetMouseButtonDown(1))
+        if(Input.GetMouseButtonDown(1) && anim.isActing == false)
         {
             defence = 2;
-            //anim.curState = "Block";
-            anim.getBlocking = true;
+            StartCoroutine(Blocking());
+            //anim.getBlocking = true;
 
             /*int x = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
             int y = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
@@ -197,41 +205,57 @@ public class Player : MonoBehaviour
             }*/
         }
 
-        /*if (Input.GetMouseButton(1))
-            anim.curState = "Blocking";*/
-
+        if (Input.GetMouseButton(1))
+        {
+            anim.isActing = true;
+            anim.act = "Blocking";
+        }
+            
         if(Input.GetMouseButtonUp(1))
         {
-            anim.isBlocking = false;
+            anim.isActing = false;
+            /*anim.isBlocking = false;
             anim.curState = "Idle";
             defence = 1;
-            anim.animIsBlocked = false;
+            anim.animIsBlocked = false;*/
         }
 
     }
 
     private IEnumerator Attacking()
     {
-        anim.curAttack = "Attack_1";
+        anim.isActing = true;
+        anim.act = "Attack_1";
+        yield return new WaitForSeconds(0.5f);
+        anim.isActing = false;
+        /*anim.curAttack = "Attack_1";
         anim.isAttacking = true;
         yield return new WaitForSeconds(0.5f);
-        anim.isAttacking = false;
+        anim.isAttacking = false;*/
     }
 
-    /*private IEnumerator Blocking()
+    private IEnumerator Blocking()
     {
-        anim.isBlocking = true;
+        anim.isActing = true;
+        anim.act = "Block";
+        yield return new WaitForSeconds(0.5f);
+        anim.act = "Blocking";
+        /*anim.isBlocking = true;
         anim.curState = "Block";
         yield return new WaitForSeconds(0.5f);
-        anim.curState = "Blocking";
-    }*/
+        anim.curState = "Blocking";*/
+    }
 
     private IEnumerator Hurting()
     {
-        anim.curState = "Hurt";
+        anim.isActing = true;
+        anim.act = "Hurt";
+        yield return new WaitForSeconds(0.5f);
+        anim.isActing = false;
+        /*anim.curState = "Hurt";
         anim.isHurting = true;
         yield return new WaitForSeconds(0.5f);
-        anim.isHurting = false;
+        anim.isHurting = false;*/
     }
 
     private void StatBarChange()
@@ -304,6 +328,6 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Игрок получил дамаг");
         StartCoroutine(Hurting());
-        health -= damage;
+        health -= damage / defence;
     }
 }

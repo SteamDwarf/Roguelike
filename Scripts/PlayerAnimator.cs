@@ -18,11 +18,14 @@ public class PlayerAnimator : MonoBehaviour
 
     public string curState;
     public string faceTo;
-    public bool isAttacking;
+    public bool isActing;
+    public bool isMoving;
+    public string act;
+    /*public bool isAttacking;
     public bool isBlocking;
     public bool getBlocking;
     public bool isHurting;
-    public string curAttack;
+    public string curAttack;*/
 
     private string prevFaceTo;
     public bool animIsBlocked;
@@ -45,6 +48,8 @@ public class PlayerAnimator : MonoBehaviour
 
         curState = "Idle";
         faceTo = "Front";
+        isActing = false;
+        isMoving = false;
         animIsBlocked = false;
         prevFaceTo = faceTo;
         curAnimator = playerFrontAnim;
@@ -52,17 +57,17 @@ public class PlayerAnimator : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CheckAnimBlocked();
+        //CheckAnimBlocked();
         ChangeFaceTo();
     }
 
-    private void CheckAnimBlocked()
+    /*private void CheckAnimBlocked()
     {
         if (isAttacking && curAnimator.GetCurrentAnimatorStateInfo(0).IsName("player" + curAttack + prevFaceTo))
             animIsBlocked = true;
         else
             animIsBlocked = false;
-    }
+    }*/
 
     private void ChangeFaceTo()
     {
@@ -108,7 +113,15 @@ public class PlayerAnimator : MonoBehaviour
 
     private void AnimationPlay()
     {
-        if (isAttacking)
+        if (!isActing && !isMoving)
+            curAnimator.Play("player" + "Idle" + faceTo);
+        else if(isActing && isMoving)
+            curAnimator.Play("player" + act + curState + faceTo);
+        else if(isActing)
+            curAnimator.Play("player" + act + faceTo);
+        else if (isMoving)
+            curAnimator.Play("player" + curState + faceTo);
+        /*if (isAttacking)
             curAnimator.Play("player" + curAttack + faceTo);
         else if (isHurting)
             curAnimator.Play("player" + "Hurt" + faceTo);
@@ -126,7 +139,7 @@ public class PlayerAnimator : MonoBehaviour
             animIsBlocked = false;
         }
         else
-            curAnimator.Play("player" + curState + faceTo);
+            curAnimator.Play("player" + curState + faceTo);*/
     }
 
 }

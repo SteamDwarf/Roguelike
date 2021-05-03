@@ -103,10 +103,10 @@ MonoBehaviour:
   playerRight: {fileID: 5481466093673456596}
   curState: 
   faceTo: 
-  isAttacking: 0
-  isBlocking: 0
-  isHurting: 0
-  curAttack: 
+  isActing: 0
+  isMoving: 0
+  act: 
+  animIsBlocked: 0
 --- !u!61 &1072617321315262203
 BoxCollider2D:
   m_ObjectHideFlags: 0
