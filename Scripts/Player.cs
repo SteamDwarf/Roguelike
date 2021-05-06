@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     public int noiseRange;
     public float hitRange;
     public int damage;
+    public float strength;
     public bool isDied;
     
 
@@ -47,6 +48,7 @@ public class Player : MonoBehaviour
     private float stamina;
     private float staminaPerAttack;
     private float defence;
+    private bool isDefending;
 
 
     public void Start()
@@ -79,7 +81,10 @@ public class Player : MonoBehaviour
 
         foreach (var hitBox in hitBoxes)
         {
-            hitBox.GetComponent<HitBox>().damage = damage;
+            HitBox hB = hitBox.GetComponent<HitBox>();
+            hB.damage = damage;
+            hB.thrust = strength;
+            hB.owner = "Player";
         }
     }
 
@@ -189,10 +194,10 @@ public class Player : MonoBehaviour
 
         if(Input.GetMouseButtonDown(1) && anim.isActing == false)
         {
-            defence = 2;
+            //defence = 2;
+            isDefending = true;
             StartCoroutine(Blocking());
-            //anim.getBlocking = true;
-
+            
             /*int x = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
             int y = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
 
@@ -214,6 +219,7 @@ public class Player : MonoBehaviour
         if(Input.GetMouseButtonUp(1))
         {
             anim.isActing = false;
+            isDefending = false;
             /*anim.isBlocking = false;
             anim.curState = "Idle";
             defence = 1;
@@ -251,6 +257,7 @@ public class Player : MonoBehaviour
         anim.isActing = true;
         anim.act = "Hurt";
         yield return new WaitForSeconds(0.5f);
+        anim.act = "";
         anim.isActing = false;
         /*anim.curState = "Hurt";
         anim.isHurting = true;
@@ -326,8 +333,23 @@ public class Player : MonoBehaviour
 
     public void GetDamage(float damage)
     {
-        Debug.Log("Игрок получил дамаг");
+        //Debug.Log("Игрок получил дамаг");
         StartCoroutine(Hurting());
-        health -= damage / defence;
+        if(isDefending)
+        {
+           // Debug.Log("Игрок защищается");
+            float staminaSub = damage * 10;
+            if(staminaSub > stamina)
+            {
+                stamina = 0;
+                staminaSub -= stamina;
+                health -= staminaSub / 10;
+            }
+            else
+                stamina -= staminaSub;
+           // Debug.Log(stamina);
+        }
+        else 
+            health -= damage;
     }
 }

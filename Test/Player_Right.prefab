@@ -2271,6 +2271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  thrust: 0
 --- !u!60 &3539907658916492527
 PolygonCollider2D:
   m_ObjectHideFlags: 0

@@ -111,6 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa69f1adeb2aa74aa35ba5e542848e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  thrust: 0
 --- !u!1 &3173003502510189594
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,6 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa69f1adeb2aa74aa35ba5e542848e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  thrust: 0
 --- !u!1 &6595292686124368982
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,6 +282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa69f1adeb2aa74aa35ba5e542848e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  thrust: 0
 --- !u!1 &7729548928385438762
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,6 +360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa69f1adeb2aa74aa35ba5e542848e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  thrust: 0
 --- !u!1 &8979335956092022976
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,8 +442,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.0001
-  m_LinearDrag: 0
-  m_AngularDrag: 1000000
+  m_LinearDrag: 1000000
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -454,14 +462,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70ec1ff086f40e42b1e22244d9ffd35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  staminaBar: {fileID: 0}
   healthBar: {fileID: 8783142879205076374, guid: 07c594b6110fecd4c95c42721b62e01f, type: 3}
+  hitBoxes: []
   speed: 20
-  health: 10
   maxHealth: 20
+  maxStamina: 0
   noiseRange: 9
   hitRange: 2.94
   damage: 10
-  hitPos: {fileID: 1243085506692859248}
+  strength: 0
+  isDied: 0
 --- !u!212 &3728256833208236554
 SpriteRenderer:
   m_ObjectHideFlags: 0

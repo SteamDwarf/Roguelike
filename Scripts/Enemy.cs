@@ -15,7 +15,8 @@ public class Enemy : MonoBehaviour
 {
     DungeonGenerator DG;
     GameObject gameManager;
-    EnemyAnimator anim;
+    Collider2D enemyCollider;
+    protected EnemyAnimator anim;
 
     public Image healthBar;
     public Vector2 currentPlayerPosition;
@@ -64,6 +65,7 @@ public class Enemy : MonoBehaviour
         rB = GetComponent<Rigidbody2D>();
         anim = GetComponent<EnemyAnimator>();
         DG = gameManager.GetComponent<DungeonGenerator>();
+        enemyCollider = gameObject.GetComponent<Collider2D>();
         //hitBox = gameObject.GetComponent<HitBox>();
 
         mapk = DG.mapk;
@@ -109,7 +111,9 @@ public class Enemy : MonoBehaviour
 
             Attack attack = new Attack(name, range, damage);
             enemyAttacks.Add(attack);
-            attackPoses[i].GetComponent<HitBox>().damage = damage;
+            HitBox pos = attackPoses[i].GetComponent<HitBox>();
+            pos.damage = damage;
+            pos.owner = "Enemy";
         }
 
     }
@@ -161,7 +165,7 @@ public class Enemy : MonoBehaviour
             anim.curState = "Walk";
             speed = defaultSpeed;
 
-            if (Vector2.Distance(transform.position, target) < 0.001)
+            if (Vector2.Distance(transform.position, target) < 1)
                 anim.curState = "Idle";
             //currentState = EnemyState.idle;
         }
@@ -245,16 +249,16 @@ public class Enemy : MonoBehaviour
 
     public void GetDamage(int damage)
     {
-        if (health > 0)
-        {
-            StartCoroutine(Hurting());
-            health -= damage;
-            currentAgroTime = startAgroTime;
-        }
-        else if (health <= 0)
+        Debug.Log("Враг получил дамаг");
+        StartCoroutine(Hurting());
+        health -= damage;
+        currentAgroTime = startAgroTime;
+
+        if (health <= 0)
         {
             anim.curState = "Dying";
             isDied = true;
+            enemyCollider.isTrigger = true;
         }
            
     }

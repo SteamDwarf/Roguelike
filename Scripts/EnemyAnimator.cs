@@ -28,7 +28,7 @@ public class EnemyAnimator : MonoBehaviour
 
     private void AnimationPlay()
     {
-        if (curState == "Dying")
+        if (curState == "Dying" && !isHurting)
         {
             curAnimator.Play("Die" + enemyName);
             curState = "Died";
@@ -38,8 +38,8 @@ public class EnemyAnimator : MonoBehaviour
         else if (isAttacking)
         {
             curAnimator.Play(curAttack + enemyName);
-            Debug.Log(curAttack);
-            Debug.Log(enemyName);
+            //Debug.Log(curAttack);
+            //Debug.Log(enemyName);
         }
         else if (isHurting)
             curAnimator.Play("Hurt" + enemyName);

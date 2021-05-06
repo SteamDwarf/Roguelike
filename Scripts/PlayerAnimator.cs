@@ -115,9 +115,11 @@ public class PlayerAnimator : MonoBehaviour
     {
         if (!isActing && !isMoving)
             curAnimator.Play("player" + "Idle" + faceTo);
-        else if(isActing && isMoving)
+        else if (act == "Hurt")
+            curAnimator.Play("player" + "Hurt" + faceTo);
+        else if (isActing && isMoving)
             curAnimator.Play("player" + act + curState + faceTo);
-        else if(isActing)
+        else if (isActing)
             curAnimator.Play("player" + act + faceTo);
         else if (isMoving)
             curAnimator.Play("player" + curState + faceTo);
