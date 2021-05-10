@@ -14,7 +14,7 @@ public class MeleeEnemy : Enemy
     {
         base.Update();
 
-        if (sawPlayer)
+        /*if (sawPlayer)
         {
             if (stamina >= 30f && !anim.isAttacking && Vector2.Distance(transform.position, target) <= attackRadius)
             {
@@ -22,7 +22,7 @@ public class MeleeEnemy : Enemy
                 StartCoroutine(Attacking());
                 MakeAttack();
             }
-        }
+        }*/
     }
 
     /*private void OnCollisionEnter2D(Collision2D collision)
@@ -65,9 +65,40 @@ public class MeleeEnemy : Enemy
     }
 
 
-    /* protected override void DefaultBehavior()
-     {
-         if (sawPlayer)
-             target = currentPlayerPosition;
-     }*/
+    protected override void DefaultBehavior()
+    {
+        if (sawPlayer)
+        {
+            target = currentPlayerPosition;
+            //currentState = EnemyState.run;
+            anim.curState = "Run";
+            speed = defaultSpeed * 2;
+            currentAgroTime -= Time.deltaTime;
+
+            if (stamina >= 30f && !anim.isAttacking && Vector2.Distance(transform.position, target) <= attackRadius)
+            {
+                currentAgroTime = startAgroTime;
+                StartCoroutine(Attacking());
+                MakeAttack();
+            }
+        }
+        else
+        {
+            target = startPosition;
+            //currentState = EnemyState.walk;
+            anim.curState = "Walk";
+            speed = defaultSpeed;
+
+            if (Vector2.Distance(transform.position, target) < 1)
+                anim.curState = "Idle";
+            //currentState = EnemyState.idle;
+        }
+
+        //anim.Play(currentAnimation + enemyName);
+
+        if (currentAgroTime <= 0)
+        {
+            sawPlayer = false;
+        }
+    }
 }

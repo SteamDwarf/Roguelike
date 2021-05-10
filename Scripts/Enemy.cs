@@ -148,37 +148,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected void DefaultBehavior()
-    {
-        if (sawPlayer)
-        {
-            target = currentPlayerPosition;
-            //currentState = EnemyState.run;
-            anim.curState = "Run";
-            speed = defaultSpeed * 2;
-            currentAgroTime -= Time.deltaTime;
-        }
-        else
-        {
-            target = startPosition;
-            //currentState = EnemyState.walk;
-            anim.curState = "Walk";
-            speed = defaultSpeed;
-
-            if (Vector2.Distance(transform.position, target) < 1)
-                anim.curState = "Idle";
-            //currentState = EnemyState.idle;
-        }
-
-        //anim.Play(currentAnimation + enemyName);
-
-        if (currentAgroTime <= 0)
-        {
-            sawPlayer = false;
-        }
-    }
-
-
+    protected virtual void DefaultBehavior(){}
 
     protected void RefreshStamina()
     {
