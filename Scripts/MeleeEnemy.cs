@@ -25,28 +25,6 @@ public class MeleeEnemy : Enemy
         }*/
     }
 
-    /*private void OnCollisionEnter2D(Collision2D collision)
-    {
-      
-        if (collision.gameObject.tag == "Player" && stamina >= 30f && !anim.isAttacking)
-        {
-            currentAgroTime = startAgroTime;
-            StartCoroutine(Attacking());
-            MakeAttack();
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        
-        if (collision.gameObject.tag == "Player" && stamina >= 30f && !anim.isAttacking)
-        {
-            currentAgroTime = startAgroTime;
-            StartCoroutine(Attacking());
-            MakeAttack();
-            //Debug.Log(stamina);
-        }
-    }*/
 
     protected override void MakeAttack()
     {
@@ -56,12 +34,7 @@ public class MeleeEnemy : Enemy
         stamina -= 30;
         curAttack = attack.name;
         currentAgroTime = startAgroTime;
-        attackPoses[attackInd].GetComponent<HitBox>().damage = attack.damage;
-        //anim.Play(currentAnimation + enemyName);
-        //Debug.Log(isAttack);
-        /*Debug.Log(curAttack);
-        Debug.Log(enemyName);*/
-        //Debug.Log("Враг атакует");
+        //attackPoses[attackInd].GetComponent<HitBox>().damage = attack.damage;
     }
 
 
@@ -77,7 +50,6 @@ public class MeleeEnemy : Enemy
 
             if (stamina >= 30f && !anim.isAttacking && Vector2.Distance(transform.position, target) <= attackRadius)
             {
-                currentAgroTime = startAgroTime;
                 StartCoroutine(Attacking());
                 MakeAttack();
             }

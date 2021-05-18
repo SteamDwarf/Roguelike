@@ -19,13 +19,13 @@ public class Player : MonoBehaviour
     //public Transform hitPos;
     public float speed;
     public float maxHealth;
-    public int maxStamina;
+    public float maxStamina;
     public int noiseRange;
     public float hitRange;
     public int damage;
     public float strength;
     public bool isDied;
-    
+
 
     //private new CameraScript camera;
     //private Transform canvasTransform;
@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     private DoorOpening doorScript;
     private Vector2 inputMovement;
     private Vector2 moveVelocity;
+    private Dictionary<typeEnum, float> curEffectsIncrease;
+    private Dictionary<typeEnum, float> curEffectsDuring;
 
     private float mapk;
     private int prevX;
@@ -49,7 +51,7 @@ public class Player : MonoBehaviour
     private float staminaPerAttack;
     private float defence;
     private bool isDefending;
-
+    
 
     public void Start()
     {
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour
         gameManager = GameObject.Find("GameManager");
         MD = gameManager.GetComponent<MapDrawer>();
         dungeon = gameManager.GetComponent<DungeonGenerator>();
-        
+
         //////////////////////////////////////////////////////////////////////
         ///HIT BOX ÌÂ ·ÂÂÚÒˇ/////////////////////////////////////////////
 
@@ -86,6 +88,19 @@ public class Player : MonoBehaviour
             hB.thrust = strength;
             hB.owner = "Player";
         }
+
+        curEffectsIncrease = new Dictionary<typeEnum, float>
+        {
+            [typeEnum.speed] = 0,
+            [typeEnum.stamina] = 0,
+            [typeEnum.strength] = 0
+        };
+        curEffectsDuring = new Dictionary<typeEnum, float>
+        {
+            [typeEnum.speed] = 0,
+            [typeEnum.stamina] = 0,
+            [typeEnum.strength] = 0
+        };
     }
 
     public void Update()
@@ -119,35 +134,6 @@ public class Player : MonoBehaviour
                 anim.faceTo = "Right";
             else if (inputMovement.x < 0)
                 anim.faceTo = "Left";
-            /*if (inputMovement.y > 0)
-            {
-                anim.SetBool("runFrontA1", true);
-                anim.SetBool("runBackA1", false);
-                anim.SetBool("runLeftA1", false);
-                anim.SetBool("runRightA1", false);
-                //anim.SetTrigger("runFrontTrig");
-            }
-            else if (inputMovement.y < 0)
-            {
-                anim.SetBool("runBackA1", true);
-                anim.SetBool("runFrontA1", false);
-                anim.SetBool("runLeftA1", false);
-                anim.SetBool("runRightA1", false);
-            }
-            else if (inputMovement.x < 0)
-            {
-                anim.SetBool("runLeftA1", true);
-                anim.SetBool("runFrontA1", false);
-                anim.SetBool("runBackA1", false);
-                anim.SetBool("runRightA1", false);
-            }
-            else if (inputMovement.x > 0)
-            {
-                anim.SetBool("runRightA1", true);
-                anim.SetBool("runFrontA1", false);
-                anim.SetBool("runBackA1", false);
-                anim.SetBool("runLeftA1", false);
-            }*/
 
             prevX = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
             prevY = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
@@ -181,7 +167,7 @@ public class Player : MonoBehaviour
 
     private void Combat()
     {
-        if(Input.GetMouseButtonDown(0) && stamina >= staminaPerAttack && anim.isActing == false)
+        if (Input.GetMouseButtonDown(0) && stamina >= staminaPerAttack && anim.isActing == false)
         {
             stamina -= 30;
             StartCoroutine(Attacking());
@@ -192,12 +178,12 @@ public class Player : MonoBehaviour
             StartCoroutine(Attacking());
         }*/
 
-        if(Input.GetMouseButtonDown(1) && anim.isActing == false)
+        if (Input.GetMouseButtonDown(1) && anim.isActing == false)
         {
             //defence = 2;
             isDefending = true;
             StartCoroutine(Blocking());
-            
+
             /*int x = Mathf.FloorToInt(rB.position.x / mapk + 0.5f);
             int y = Mathf.FloorToInt(rB.position.y / mapk + 0.5f);
 
@@ -215,8 +201,8 @@ public class Player : MonoBehaviour
             anim.isActing = true;
             anim.act = "Blocking";
         }
-            
-        if(Input.GetMouseButtonUp(1))
+
+        if (Input.GetMouseButtonUp(1))
         {
             anim.isActing = false;
             isDefending = false;
@@ -274,14 +260,14 @@ public class Player : MonoBehaviour
 
     private void StaminaRefresh()
     {
-        if(stamina < maxStamina)
+        if (stamina < maxStamina)
         {
             if (anim.curState == "Idle")
                 stamina += Time.deltaTime * 20;
             else if (anim.curState == "Run")
                 stamina += Time.deltaTime * 10;
         }
-       
+
     }
 
     void NoiseFOVCheck(int x, int y)
@@ -310,7 +296,7 @@ public class Player : MonoBehaviour
                         //enemy.currentPlayerPosition = transform.position;
                         //enemy.savedPlayerPosition = transform.position;
                         //Debug.Log("“ÛÚ ‚‡„");
-                        
+
                         //Debug.Log(MapManager.map[xCord, yCord].enemy.name);
                     }
                 }
@@ -329,6 +315,38 @@ public class Player : MonoBehaviour
             door = collision.gameObject;
             doorScript = door.GetComponent<DoorOpening>();
         }
+    }
+
+    public void UpdateHealth(float healthIncr)
+    {
+        health += healthIncr;
+    }
+
+    /*public void GetContiniousEffect(float increase, float time, typeEnum effect)
+    {
+        if(curEffectsDuring[effect] == 0)
+        {
+            curEffectsDuring[effect] = time;
+            return;
+        }
+
+        switch (effect)
+        {
+            case typeEnum.strength:
+                break;
+            case typeEnum.stamina:
+                break;
+            case typeEnum.speed:
+                speed *= increase;
+                break;
+        }
+    }*/
+
+    //—ƒ≈À¿“‹ ÕŒ–Ã¿À‹Õ€… Ã≈Õ≈ƒ∆Ã≈Õ“ ›‘‘≈ “Œ¬
+
+    public void ChangeSpeed(float speedMultiplier)
+    {
+        speed *= speedMultiplier;
     }
 
     public void GetDamage(float damage)

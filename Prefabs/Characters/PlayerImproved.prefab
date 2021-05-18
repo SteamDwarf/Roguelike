@@ -80,7 +80,7 @@ MonoBehaviour:
   - {fileID: 97389299924830264}
   - {fileID: 383282561443717626}
   - {fileID: 1587212108644291754}
-  speed: 20
+  speed: 18
   maxHealth: 20
   maxStamina: 100
   noiseRange: 0
